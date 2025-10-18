@@ -4,7 +4,7 @@ class IntentRecognizer:
     def __init__(self):
         # Use a classification pipeline (binary/positive/negative for demo);
         # for real intent classification, fine-tune on your own intent data!
-        self.classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
+        self.classifier = pipeline("text-classification", model="promptsbyesha/NexaConverseAI-IntentModel")
         self.intent_labels = ["greeting", "goodbye", "order_status", "fallback"]
 
     def predict(self, text: str) -> str:
