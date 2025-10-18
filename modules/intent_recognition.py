@@ -1,20 +1,24 @@
-from typing import List, Dict
+from transformers import pipeline
 
 class IntentRecognizer:
-    def __init__(self, model=None):
-        # model: Placeholder for transformer, spaCy, or rule-based; can be swapped out
-        self.model = model
+    def __init__(self):
+        # Use a classification pipeline (binary/positive/negative for demo);
+        # for real intent classification, fine-tune on your own intent data!
+        self.classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
         self.intent_labels = ["greeting", "goodbye", "order_status", "fallback"]
 
     def predict(self, text: str) -> str:
-        # Placeholder: Replace with model inference logic
-        # Example rule: just for placeholder, returns fallback for unknown
-        lowered = text.lower()
-        if any(greet in lowered for greet in ["hello", "hi", "hey"]):
-            return "greeting"
-        elif any(bye in lowered for bye in ["bye", "goodbye", "see you"]):
-            return "goodbye"
-        elif "order" in lowered or "status" in lowered:
+        result = self.classifier(text)[0]
+        label = result['label']
+        # Map sentiment/classification output to your intents
+        if label == "POSITIVE":
+            if any(word in text.lower() for word in ["hello", "hi", "hey"]):
+                return "greeting"
+            # add more advanced mapping logic for your intents if needed
             return "order_status"
+        elif label == "NEGATIVE":
+            if any(word in text.lower() for word in ["bye", "goodbye", "see you"]):
+                return "goodbye"
+            return "fallback"
         else:
-            return "fallback" # For unknowns, out-of-distribution, etc.
+            return "fallback"
