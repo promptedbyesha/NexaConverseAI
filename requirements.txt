@@ -1,0 +1,9 @@
+transformers
+torch
+scikit-learn
+fastapi
+uvicorn
+numpy
+pandas
+pyyaml
+requests

@@ -1,0 +1,9 @@
+{
+"intents": [
+    {
+    "tag": "order_status",
+    "patterns": ["Where is my order?", "Track my order", "Order status", "Has my order shipped?"],
+    "responses": ["Can you provide your order ID, please?", "I'd be happy to check. What's your order number?"]
+    }
+]
+}
